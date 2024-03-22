@@ -18,27 +18,26 @@ parser = argparse.ArgumentParser(description="tool to substitute placeholders wi
 parser.add_argument("-d", "--data",      default="context.yaml", help="data file in json or yaml format")
 parser.add_argument("-t", "--templates", default="templates",    help="directory containing template files")
 parser.add_argument("-o", "--output",    default="output",       help="directory where generated files are written")
-args = parser.parse_args()
-config = vars(args)
+config = parser.parse_args()
 
 
 
 print("--[ using ]-------")
-print(f"    data file:     {args.data}" )
-print(f"    templates dir: {args.templates}" )
-print(f"    output dir:    {args.output}" )
+print(f"    data file:     {config.data}" )
+print(f"    templates dir: {config.templates}" )
+print(f"    output dir:    {config.output}" )
 
 
-file_name, file_extension = os.path.splitext(args.data)
+file_name, file_extension = os.path.splitext(config.data)
 
 if file_extension == ".json":
-    with open(args.data) as f:
+    with open(config.data) as f:
         context = json.load(f)
 elif file_extension == ".yaml":
-    with open(args.data) as f:
+    with open(config.data) as f:
         context = yaml.safe_load(f)
 else:
-    print(f"Unexpected file extension: {args.data}")
+    print(f"Unexpected file extension: {config.data}")
     exit(1)
 
 print("")
@@ -49,13 +48,13 @@ print(yaml.dump(context, indent=2))
 
 
 print("--[ output ]-------")
-environment = Environment(loader=FileSystemLoader(args.templates))
-for root, d_names, f_names in os.walk(args.templates):
+environment = Environment(loader=FileSystemLoader(config.templates))
+for root, d_names, f_names in os.walk(config.templates):
 
     for f in f_names:
 
         source = os.path.join(root, f)
-        relative_dirpath = os.path.relpath(root, args.templates)
+        relative_dirpath = os.path.relpath(root, config.templates)
         if relative_dirpath == ".":
             relative_filepath = f
         else:
@@ -63,7 +62,7 @@ for root, d_names, f_names in os.walk(args.templates):
 
         template = environment.get_template(relative_filepath)
 
-        target_dir = os.path.join(args.output, relative_filepath)
+        target_dir = os.path.join(config.output, relative_filepath)
         Path(target_dir).mkdir(parents=True, exist_ok=True)
 
         target = os.path.join(target_dir, f)
