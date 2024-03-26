@@ -5,9 +5,9 @@ func Version() string {
 	return "{{ build.id }}"
 }
 
-// BuildDate function
-func BuildDate() string {
-	return "{{ build.date }}"
+// BuildTime function
+func BuildTime() string {
+	return "{{ build.time }}"
 }
 
 // GitCommit function
