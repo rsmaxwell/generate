@@ -1,10 +1,10 @@
 ---
 build:
   id: '1234'
-  date: '2023-02-15'
+  date: '2023-02-15 14:36:12'
 git:
   commit: qwertyuiop
   branch: main
-  url: http://build.rsmaxwell.co.uk
+  url: http://example.com
 
  
